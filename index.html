@@ -294,8 +294,10 @@
       grid.innerHTML = filtered.map(m => `
         <div class="moto-card" data-id="${m.id}" onclick="openModal(${m.id})">
           <div class="moto-card-img">
-            <div class="moto-svg-wrap">${getMotoSVG(m.id, m.color)}</div>
-          </div>
+  <img src="${m.img}" alt="${m.brand} ${m.name}" 
+       onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+  <div class="moto-svg-wrap" style="display:none">${getMotoSVG(m.id, m.color)}</div>
+</div>
           <div class="moto-card-overlay">
             <span class="moto-type">${m.tipo}</span>
             <h3 class="moto-name">${m.brand} ${m.name}</h3>
