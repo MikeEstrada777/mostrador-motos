@@ -5,7 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MOTO WORLD</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet"/>
+ 
+  <!-- ============================================================
+       LIBRERÍA PARA LA VISTA 3D — no necesitas descargar nada,
+       se carga automáticamente desde internet.
+  ============================================================ -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+ 
   <link rel="stylesheet" href="styles.css"/>
+ 
+  <!-- Estilos extra sólo para la sección 3D -->
+  <style>
+    #vista3d { padding: 120px 60px; background: var(--darker); }
+    .viewer-3d-wrap {
+      background: #0d0d0d;
+      border: 1px solid #1e1e1e;
+      margin-top: 60px;
+      overflow: hidden;
+    }
+    model-viewer {
+      width: 100%;
+      height: 520px;
+      background: transparent;
+      --poster-color: transparent;
+    }
+    .viewer-3d-info {
+      padding: 28px 40px;
+      border-top: 1px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .viewer-3d-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: 3px;
+    }
+    .viewer-3d-name span { color: var(--red); }
+    .viewer-3d-hint {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      color: #444;
+      text-transform: uppercase;
+    }
+    /* Imagen dentro del modal */
+    .modal-img-wrap {
+      width: 160px;
+      height: 120px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #161616;
+    }
+    .modal-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Imagen dentro de las tarjetas */
+    .moto-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .moto-card:hover .moto-card-img img { transform: scale(1.06); }
+ 
+    /* Imagen en la galería */
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.08) rotate(-2deg); }
+ 
+    @media (max-width: 768px) {
+      #vista3d { padding: 80px 20px; }
+      model-viewer { height: 300px; }
+      .viewer-3d-info { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
 </head>
 <body>
  
@@ -19,6 +99,7 @@
       <li><a href="#motos">Modelos</a></li>
       <li><a href="#comparador">Comparar</a></li>
       <li><a href="#galeria">Galería</a></li>
+      <li><a href="#vista3d">Vista 3D</a></li>
     </ul>
   </nav>
  
@@ -49,20 +130,10 @@
       <path d="M350 220 L410 230 L430 250" stroke="#555" stroke-width="10" stroke-linecap="round"/>
       <path d="M430 90 L470 140" stroke="#ff5500" stroke-width="3" opacity="0.6"/>
     </svg>
- 
     <div class="hero-stats">
-      <div class="stat-item">
-        <span class="stat-num">12</span>
-        <span class="stat-label">Modelos</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">300+</span>
-        <span class="stat-label">CV Máx.</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">2.7s</span>
-        <span class="stat-label">0-100 km/h</span>
-      </div>
+      <div class="stat-item"><span class="stat-num">12</span><span class="stat-label">Modelos</span></div>
+      <div class="stat-item"><span class="stat-num">300+</span><span class="stat-label">CV Máx.</span></div>
+      <div class="stat-item"><span class="stat-num">2.7s</span><span class="stat-label">0-100 km/h</span></div>
     </div>
     <div class="scroll-ind">
       <div class="scroll-line"></div>
@@ -108,6 +179,49 @@
     <div class="gallery-grid reveal" id="galleryGrid"></div>
   </section>
  
+  <!-- ============================================================
+       SECCIÓN VISTA 3D
+       Para que funcione necesitas un archivo .glb de tu moto.
+       Puedes conseguirlo gratis en: https://sketchfab.com
+       Busca "motorcycle" → descarga en formato GLB → sube el archivo
+       a la misma carpeta de tu proyecto y pon el nombre abajo,
+       o usa una URL directa si está en internet.
+  ============================================================ -->
+  <section id="vista3d">
+    <div class="section-header reveal">
+      <h2 class="section-title">VISTA <span>3D</span></h2>
+      <div class="section-line"></div>
+    </div>
+ 
+    <div class="viewer-3d-wrap reveal">
+ 
+      <model-viewer
+        <!-- ═══════════════════════════════════════════════════════
+             ▼▼▼  PEGA AQUÍ LA URL O RUTA DE TU MODELO 3D  ▼▼▼
+             Ejemplo con archivo local:  src="moto.glb"
+             Ejemplo con URL de internet: src="https://sitio.com/moto.glb"
+        ═══════════════════════════════════════════════════════ -->
+        src="TU_MODELO_AQUI.glb"
+ 
+        alt="Vista 3D Ducati Panigale V4"
+        auto-rotate
+        camera-controls
+        shadow-intensity="1.2"
+        exposure="0.9"
+        shadow-softness="0.8"
+        environment-image="neutral"
+        style="background: linear-gradient(135deg, #0d0d0d 0%, #1a0005 100%);"
+      ></model-viewer>
+ 
+      <div class="viewer-3d-info">
+        <!-- Cambia aquí el nombre de la moto que mostraste en 3D -->
+        <div class="viewer-3d-name">DUCATI <span>PANIGALE V4</span></div>
+        <span class="viewer-3d-hint">↻ Arrastra para rotar &nbsp;·&nbsp; Scroll para zoom</span>
+      </div>
+ 
+    </div>
+  </section>
+ 
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo"><span>MOTO</span>WORLD</div>
@@ -116,6 +230,7 @@
       <a href="#">Inicio</a>
       <a href="#motos">Modelos</a>
       <a href="#galeria">Galería</a>
+      <a href="#vista3d">Vista 3D</a>
     </div>
   </footer>
  
@@ -128,176 +243,121 @@
   </div>
  
   <script>
-    // Cursor
+    // ============================================================
+    // CURSOR PERSONALIZADO
+    // ============================================================
     const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
+    const ring   = document.getElementById('cursorRing');
     let mx = 0, my = 0, rx = 0, ry = 0;
     document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
     function animCursor() {
       cursor.style.left = mx - 6 + 'px';
-      cursor.style.top = my - 6 + 'px';
+      cursor.style.top  = my - 6 + 'px';
       rx += (mx - rx) * 0.12;
       ry += (my - ry) * 0.12;
       ring.style.left = rx - 18 + 'px';
-      ring.style.top = ry - 18 + 'px';
+      ring.style.top  = ry - 18 + 'px';
       requestAnimationFrame(animCursor);
     }
     animCursor();
     document.querySelectorAll('a, button, select, .moto-card, .gallery-item').forEach(el => {
-      el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; ring.style.transform = 'scale(1.5)'; });
-      el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+      el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)';  ring.style.transform = 'scale(1.5)'; });
+      el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)';  ring.style.transform = 'scale(1)';   });
     });
  
-    // DATA
+    // ============================================================
+    // DATOS DE LAS MOTOS
+    // ============================================================
+    // Para cambiar la imagen de cada moto busca el campo  img: ''
+    // y pega dentro de las comillas la URL de tu imagen.
+    // Funciona con:
+    //   • URL de internet → img: 'https://ejemplo.com/foto.jpg'
+    //   • Archivo local   → img: 'imagenes/ducati.jpg'
+    //     (el archivo debe estar en la misma carpeta del proyecto)
+    // ============================================================
     const motos = [
       {
         id: 1, cat: 'sport', badge: 'NUEVA',
         brand: 'Ducati', name: 'Panigale V4',
+        // ↓↓↓ PEGA AQUÍ LA URL DE LA IMAGEN DE LA DUCATI PANIGALE V4 ↓↓↓
         img: 'https://lamoto.com.ar/wp-content/uploads/2020/02/01_Ducati-Superleggera-V4.jpg',
         tipo: 'Superbike',
         cv: '214', nm: '124', vel: '299+', peso: '195',
         desc: 'La Panigale V4 es la máquina de carreras más avanzada de Ducati. Con su motor V4 Desmosedici Stradale, tecnología de MotoGP y aerodinámica de competición, redefine los límites de la superbike de producción.',
-        features: ['Motor V4 Desmosedici', 'Alas aerodinámicas', 'Control de tracción Cornering', 'ABS Cornering EVO', 'IMU 6-axis', 'QuickShift EVO'],
+        features: ['Motor V4 Desmosedici','Alas aerodinámicas','Control de tracción Cornering','ABS Cornering EVO','IMU 6-axis','QuickShift EVO'],
         color: '#e8001d'
       },
       {
         id: 2, cat: 'naked', badge: null,
         brand: 'BMW', name: 'M 1000 R',
-          img: 'https://www.totalmotorcycle.com/photos/2026/2026-BMW-M1000RR-g.jpg',
+        // ↓↓↓ PEGA AQUÍ LA URL DE LA IMAGEN DE LA BMW M 1000 R ↓↓↓
+        img: 'https://www.totalmotorcycle.com/photos/2026/2026-BMW-M1000RR-g.jpg',
         tipo: 'Naked Sport',
         cv: '210', nm: '113', vel: '260', peso: '199',
         desc: 'La primera naked M de BMW. Con la letra M como símbolo de potencia máxima, la M 1000 R combina el motor de la S 1000 RR con una posición de manejo más erguida y una presencia visual arrolladora.',
-        features: ['Motor ShiftCam 4 cil.', 'Suspensión DDC', 'BMW Motorrad HP ABS', 'Dynamic Traction Control', 'Driving Modes Pro', 'Escapes M Sport'],
+        features: ['Motor ShiftCam 4 cil.','Suspensión DDC','BMW Motorrad HP ABS','Dynamic Traction Control','Driving Modes Pro','Escapes M Sport'],
         color: '#1c69d4'
       },
       {
         id: 3, cat: 'sport', badge: 'TOP',
         brand: 'Kawasaki', name: 'Ninja ZX-10R',
-          img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZxRD4yzEoLqtrJeuh4t2-IVv7TQKfGCKhUA&s',
+        // ↓↓↓ PEGA AQUÍ LA URL DE LA IMAGEN DE LA KAWASAKI ZX-10R ↓↓↓
+        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZxRD4yzEoLqtrJeuh4t2-IVv7TQKfGCKhUA&s',
         tipo: 'Superbike',
         cv: '203', nm: '114', vel: '299+', peso: '207',
         desc: 'Directamente heredera del dominio en el WSBK, la Ninja ZX-10R lleva décadas en el tope de las superbikes. Electrónica de última generación y uno de los motores en línea más refinados del mercado.',
-        features: ['Motor inline-4 998cc', 'Showa BFF horquilla', 'KTRC tracción cornering', 'Launch Control', 'Kawasaki Quick Shifter', 'IMU 6-axis'],
+        features: ['Motor inline-4 998cc','Showa BFF horquilla','KTRC tracción cornering','Launch Control','Kawasaki Quick Shifter','IMU 6-axis'],
         color: '#39c200'
       },
       {
         id: 4, cat: 'adventure', badge: null,
         brand: 'KTM', name: '1290 Super Adventure R',
-          img: 'https://images.ctfassets.net/x4we65bqi27i/5Zmjh4Rv7Gf9gH4nFxYkZ2/ktm-1290-super-adventure-r-2023.jpg',
+        // ↓↓↓ PEGA AQUÍ LA URL DE LA IMAGEN DE LA KTM 1290 ↓↓↓
+        img: 'https://images.ctfassets.net/x4we65bqi27i/5Zmjh4Rv7Gf9gH4nFxYkZ2/ktm-1290-super-adventure-r-2023.jpg',
         tipo: 'Adventure',
         cv: '160', nm: '140', vel: '220', peso: '223',
-        desc: 'La reina del off-road aventurero. El motor LC8 bicindrídrico de 1301cc entrega potencia masiva con la suavidad necesaria para largas jornadas. La suspensión WP XPLOR de 48mm absorbe cualquier terreno.',
-        features: ['Motor LC8 1301cc', 'Suspensión WP XPLOR 48mm', 'Modo Rally Off-road', 'Control de tracción MSC', 'Hill Hold Control', 'Pantalla TFT 5"'],
+        desc: 'La reina del off-road aventurero. El motor LC8 bicilíndrico de 1301cc entrega potencia masiva con la suavidad necesaria para largas jornadas. La suspensión WP XPLOR de 48mm absorbe cualquier terreno.',
+        features: ['Motor LC8 1301cc','Suspensión WP XPLOR 48mm','Modo Rally Off-road','Control de tracción MSC','Hill Hold Control','Pantalla TFT 5"'],
         color: '#ff6600'
       },
       {
         id: 5, cat: 'naked', badge: null,
         brand: 'Aprilia', name: 'Tuono V4 Factory',
-          img: 'https://www.autoevolution.com/images/moto_gallery/2026/aprilia/2026-aprilia-tuono-v4-factory-3_1.jpg',
+        // ↓↓↓ PEGA AQUÍ LA URL DE LA IMAGEN DE LA APRILIA TUONO V4 ↓↓↓
+        img: 'https://www.autoevolution.com/images/moto_gallery/2026/aprilia/2026-aprilia-tuono-v4-factory-3_1.jpg',
         tipo: 'Naked',
         cv: '175', nm: '121', vel: '280', peso: '184',
         desc: 'La Tuono V4 Factory es la naked más tecnológica del mercado. Hereda directamente el ADN de la RSV4, con electrónica de nivel MotoGP encapsulada en una naked de estilo italiano inconfundible.',
-        features: ['Motor V4 1077cc', 'APRC (Aprilia Performance Ride)', 'Suspensión Öhlins Smart EC', 'Winglets aerodinámicos', 'Brembo Stylema calipers', 'Cornering ABS'],
+        features: ['Motor V4 1077cc','APRC (Aprilia Performance Ride)','Suspensión Öhlins Smart EC','Winglets aerodinámicos','Brembo Stylema calipers','Cornering ABS'],
         color: '#c8aa00'
       },
       {
         id: 6, cat: 'sport', badge: null,
         brand: 'Honda', name: 'CBR1000RR-R Fireblade SP',
-          img: 'https://powersports.honda.com/content/dam/hpd/motorcycles/cbr1000rr-r-fireblade-sp/2023/overview/gallery/2023-Honda-CBR1000RR-R-Fireblade-SP.jpg',
+        // ↓↓↓ PEGA AQUÍ LA URL DE LA IMAGEN DE LA HONDA FIREBLADE SP ↓↓↓
+        img: 'https://powersports.honda.com/content/dam/hpd/motorcycles/cbr1000rr-r-fireblade-sp/2023/overview/gallery/2023-Honda-CBR1000RR-R-Fireblade-SP.jpg',
         tipo: 'Superbike',
         cv: '217', nm: '113', vel: '299+', peso: '201',
         desc: 'La Fireblade SP es el pináculo de la ingeniería Honda, fruto de la tecnología RC213V-S de MotoGP. Componentes de competición, suspensión Öhlins NPX y frenos Brembo Stylema hacen de ella una máquina de referencia.',
-        features: ['Motor inline-4 999cc', 'Suspensión Öhlins NPX', 'Brembo Stylema frenos', 'IMU 6-axis Honda', 'Selectable Torque Control', 'Wheelie Control'],
+        features: ['Motor inline-4 999cc','Suspensión Öhlins NPX','Brembo Stylema frenos','IMU 6-axis Honda','Selectable Torque Control','Wheelie Control'],
         color: '#cc0000'
       }
     ];
  
-    function getMotoSVG(id, color = '#e8001d') {
-      const svgs = {
-        1: `<svg viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="70" cy="120" rx="35" ry="35" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="70" cy="120" rx="20" ry="20" stroke="${color}" stroke-width="3" fill="none"/>
-          <ellipse cx="230" cy="120" rx="35" ry="35" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="230" cy="120" rx="20" ry="20" stroke="${color}" stroke-width="3" fill="none"/>
-          <path d="M70 120 L100 75 L190 65 L230 80 L230 120" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
-          <path d="M100 75 L115 45 L190 40 L210 65 L190 65" fill="#222" stroke="#333" stroke-width="2"/>
-          <path d="M210 65 L230 55 L245 75 L230 80" fill="${color}" opacity="0.8"/>
-          <path d="M115 45 L130 30 L175 28 L195 42 L210 65 L115 45Z" fill="#161616" stroke="#333" stroke-width="1.5"/>
-          <circle cx="130" cy="33" r="7" fill="#111" stroke="#444" stroke-width="1.5"/>
-          <path d="M185 100 L210 108 L220 120" stroke="#555" stroke-width="6" stroke-linecap="round"/>
-        </svg>`,
-        2: `<svg viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="65" cy="118" rx="34" ry="34" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="65" cy="118" rx="20" ry="20" stroke="${color}" stroke-width="3" fill="none"/>
-          <ellipse cx="230" cy="118" rx="34" ry="34" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="230" cy="118" rx="20" ry="20" stroke="${color}" stroke-width="3" fill="none"/>
-          <path d="M65 118 L90 70 L180 60 L230 80 L230 118" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
-          <path d="M90 70 L100 35 L200 32 L215 65 L180 60" fill="#1f1f1f" stroke="#333" stroke-width="2"/>
-          <path d="M200 32 L230 45 L240 72 L215 65" fill="${color}" opacity="0.9"/>
-          <path d="M180 95 L215 104 L226 118" stroke="#555" stroke-width="7" stroke-linecap="round"/>
-          <rect x="108" y="28" width="14" height="10" rx="2" fill="#111" stroke="#444" stroke-width="1.5"/>
-        </svg>`,
-        3: `<svg viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="68" cy="120" rx="34" ry="34" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="68" cy="120" rx="19" ry="19" stroke="${color}" stroke-width="3" fill="none"/>
-          <ellipse cx="232" cy="120" rx="34" ry="34" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="232" cy="120" rx="19" ry="19" stroke="${color}" stroke-width="3" fill="none"/>
-          <path d="M68 120 L98 72 L190 62 L232 82 L232 120" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
-          <path d="M98 72 L112 38 L195 35 L215 62 L190 62" fill="#1c1c1c" stroke="#333" stroke-width="2"/>
-          <path d="M215 62 L240 50 L248 78 L232 82" fill="${color}" opacity="0.85"/>
-          <path d="M190 98 L218 108 L230 120" stroke="#555" stroke-width="6" stroke-linecap="round"/>
-          <circle cx="125" cy="35" r="8" fill="#111" stroke="#444" stroke-width="1.5"/>
-        </svg>`,
-        4: `<svg viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="65" cy="118" rx="36" ry="36" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="65" cy="118" rx="22" ry="22" stroke="${color}" stroke-width="3" fill="none"/>
-          <ellipse cx="228" cy="118" rx="36" ry="36" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="228" cy="118" rx="22" ry="22" stroke="${color}" stroke-width="3" fill="none"/>
-          <path d="M65 118 L90 68 L185 58 L228 75 L228 118" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
-          <path d="M90 68 L105 30 L210 28 L225 60 L185 58" fill="#1e1e1e" stroke="#333" stroke-width="2"/>
-          <path d="M225 60 L255 52 L258 80 L228 75" fill="${color}" opacity="0.8"/>
-          <rect x="105" y="58" width="50" height="22" rx="3" fill="#222" stroke="#333" stroke-width="1.5"/>
-          <rect x="215" y="58" width="50" height="22" rx="3" fill="#222" stroke="#333" stroke-width="1.5"/>
-          <path d="M185 100 L212 108 L224 118" stroke="#555" stroke-width="7" stroke-linecap="round"/>
-        </svg>`,
-        5: `<svg viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="68" cy="120" rx="33" ry="33" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="68" cy="120" rx="19" ry="19" stroke="${color}" stroke-width="3" fill="none"/>
-          <ellipse cx="230" cy="120" rx="33" ry="33" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="230" cy="120" rx="19" ry="19" stroke="${color}" stroke-width="3" fill="none"/>
-          <path d="M68 120 L95 73 L185 63 L230 82 L230 120" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
-          <path d="M95 73 L108 42 L192 40 L210 66 L185 63" fill="#1d1d1d" stroke="#333" stroke-width="2"/>
-          <path d="M210 66 L238 55 L244 80 L230 82" fill="${color}" opacity="0.85"/>
-          <line x1="238" y1="45" x2="248" y2="38" stroke="${color}" stroke-width="3"/>
-          <line x1="244" y1="48" x2="256" y2="42" stroke="${color}" stroke-width="3"/>
-          <path d="M185 100 L212 108 L222 120" stroke="#555" stroke-width="6" stroke-linecap="round"/>
-        </svg>`,
-        6: `<svg viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="70" cy="120" rx="34" ry="34" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="70" cy="120" rx="20" ry="20" stroke="${color}" stroke-width="3" fill="none"/>
-          <ellipse cx="232" cy="120" rx="34" ry="34" stroke="#333" stroke-width="5" fill="none"/>
-          <ellipse cx="232" cy="120" rx="20" ry="20" stroke="${color}" stroke-width="3" fill="none"/>
-          <path d="M70 120 L100 74 L192 64 L232 82 L232 120" stroke="#444" stroke-width="2" fill="#1a1a1a"/>
-          <path d="M100 74 L115 40 L198 38 L218 66 L192 64" fill="#1c1c1c" stroke="#333" stroke-width="2"/>
-          <path d="M218 66 L242 52 L250 78 L232 82" fill="${color}" opacity="0.9"/>
-          <path d="M198 38 L208 20 L228 22 L218 38" fill="${color}" opacity="0.4"/>
-          <path d="M188 100 L215 108 L226 120" stroke="#555" stroke-width="6" stroke-linecap="round"/>
-          <circle cx="128" cy="36" r="7" fill="#111" stroke="#444" stroke-width="1.5"/>
-        </svg>`
-      };
-      return svgs[id] || svgs[1];
-    }
- 
+    // ============================================================
+    // RENDERIZAR TARJETAS DE MOTOS (usa la imagen real)
+    // ============================================================
     function renderMotos(cat = 'all') {
-      const grid = document.getElementById('motosGrid');
+      const grid     = document.getElementById('motosGrid');
       const filtered = cat === 'all' ? motos : motos.filter(m => m.cat === cat);
       grid.innerHTML = filtered.map(m => `
         <div class="moto-card" data-id="${m.id}" onclick="openModal(${m.id})">
           <div class="moto-card-img">
-  <img src="${m.img}" alt="${m.brand} ${m.name}" 
-       onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
-  <div class="moto-svg-wrap" style="display:none">${getMotoSVG(m.id, m.color)}</div>
-</div>
+            <img
+              src="${m.img}"
+              alt="${m.brand} ${m.name}"
+              onerror="this.src='https://placehold.co/600x400/111111/e8001d?text=${encodeURIComponent(m.brand)}'"/>
+          </div>
           <div class="moto-card-overlay">
             <span class="moto-type">${m.tipo}</span>
             <h3 class="moto-name">${m.brand} ${m.name}</h3>
@@ -313,6 +373,7 @@
     }
     renderMotos();
  
+    // Botones de filtro
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -321,11 +382,17 @@
       });
     });
  
+    // ============================================================
+    // MODAL DE DETALLE (usa la imagen real)
+    // ============================================================
     function openModal(id) {
       const m = motos.find(x => x.id === id);
       document.getElementById('modalContent').innerHTML = `
         <div class="modal-header">
-          <div class="modal-icon">${getMotoSVG(id, m.color)}</div>
+          <div class="modal-img-wrap">
+            <img src="${m.img}" alt="${m.name}"
+              onerror="this.src='https://placehold.co/320x240/111111/e8001d?text=${encodeURIComponent(m.brand)}'"/>
+          </div>
           <div>
             <p class="modal-brand">${m.brand} · ${m.tipo}</p>
             <h2 class="modal-title">${m.name}</h2>
@@ -348,25 +415,35 @@
       document.getElementById('modal').classList.add('open');
     }
     document.getElementById('modalClose').onclick = () => document.getElementById('modal').classList.remove('open');
-    document.getElementById('modal').addEventListener('click', e => { if(e.target === e.currentTarget) e.currentTarget.classList.remove('open'); });
+    document.getElementById('modal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+    });
  
+    // ============================================================
+    // COMPARADOR
+    // ============================================================
     function buildComp(containerId, selectId, defaultId) {
       const c = document.getElementById(containerId);
       c.innerHTML = `
         <select class="comp-select" id="${selectId}">
-          ${motos.map(m => `<option value="${m.id}" ${m.id===defaultId?'selected':''}>${m.brand} ${m.name}</option>`).join('')}
+          ${motos.map(m => `<option value="${m.id}" ${m.id === defaultId ? 'selected' : ''}>${m.brand} ${m.name}</option>`).join('')}
         </select>
         <div id="${containerId}_body"></div>
       `;
       renderCompBody(containerId, defaultId);
-      document.getElementById(selectId).addEventListener('change', function() {
+      document.getElementById(selectId).addEventListener('change', function () {
         renderCompBody(containerId, +this.value);
       });
     }
+ 
     function renderCompBody(containerId, id) {
       const m = motos.find(x => x.id === id);
       document.getElementById(containerId + '_body').innerHTML = `
-        <div class="comp-icon">${getMotoSVG(id, m.color)}</div>
+        <div class="comp-icon" style="height:120px;overflow:hidden;margin-bottom:20px;">
+          <img src="${m.img}" alt="${m.name}"
+            style="width:100%;height:100%;object-fit:cover;"
+            onerror="this.src='https://placehold.co/400x240/111111/e8001d?text=${encodeURIComponent(m.brand)}'"/>
+        </div>
         <div class="comp-name">${m.brand}<br>${m.name}</div>
         <div class="comp-stat-row"><span class="comp-stat-label">Potencia</span><span class="comp-stat-val">${m.cv} CV</span></div>
         <div class="comp-stat-row"><span class="comp-stat-label">Par motor</span><span class="comp-stat-val">${m.nm} Nm</span></div>
@@ -378,6 +455,9 @@
     buildComp('compA', 'selA', 1);
     buildComp('compB', 'selB', 3);
  
+    // ============================================================
+    // GALERÍA (usa las imágenes reales de cada moto)
+    // ============================================================
     const galleryItems = [
       { id: 1, label: 'Panigale V4', large: true },
       { id: 2, label: 'M 1000 R' },
@@ -386,18 +466,27 @@
       { id: 5, label: 'Tuono V4' },
       { id: 6, label: 'Fireblade SP' },
     ];
-    document.getElementById('galleryGrid').innerHTML = galleryItems.map(g => `
-      <div class="gallery-item ${g.large ? 'large' : ''}" onclick="openModal(${g.id})">
-        ${getMotoSVG(g.id, motos.find(m=>m.id===g.id).color)}
-        <div class="gallery-overlay">
-          <span class="gallery-label">${g.label}</span>
+    document.getElementById('galleryGrid').innerHTML = galleryItems.map(g => {
+      const moto = motos.find(m => m.id === g.id);
+      return `
+        <div class="gallery-item ${g.large ? 'large' : ''}" onclick="openModal(${g.id})">
+          <img src="${moto.img}" alt="${g.label}"
+            onerror="this.src='https://placehold.co/600x600/111111/e8001d?text=${encodeURIComponent(g.label)}'"/>
+          <div class="gallery-overlay">
+            <span class="gallery-label">${g.label}</span>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
  
+    // ============================================================
+    // ANIMACIONES AL HACER SCROLL
+    // ============================================================
     const revealEls = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
     }, { threshold: 0.1 });
     revealEls.forEach(el => io.observe(el));
   </script>
