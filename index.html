@@ -7,8 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet"/>
  
   <!-- ============================================================
-       LIBRERÍA PARA LA VISTA 3D — no necesitas descargar nada,
-       se carga automáticamente desde internet.
+       LIBRERÍA PARA LA VISTA 3D 
   ============================================================ -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
  
@@ -131,7 +130,7 @@
       <path d="M430 90 L470 140" stroke="#ff5500" stroke-width="3" opacity="0.6"/>
     </svg>
     <div class="hero-stats">
-      <div class="stat-item"><span class="stat-num">12</span><span class="stat-label">Modelos</span></div>
+      <div class="stat-item"><span class="stat-num">6</span><span class="stat-label">Modelos</span></div>
       <div class="stat-item"><span class="stat-num">300+</span><span class="stat-label">CV Máx.</span></div>
       <div class="stat-item"><span class="stat-num">2.7s</span><span class="stat-label">0-100 km/h</span></div>
     </div>
@@ -181,11 +180,8 @@
  
   <!-- ============================================================
        SECCIÓN VISTA 3D
-       Para que funcione necesitas un archivo .glb de tu moto.
-       Puedes conseguirlo gratis en: https://sketchfab.com
-       Busca "motorcycle" → descarga en formato GLB → sube el archivo
-       a la misma carpeta de tu proyecto y pon el nombre abajo,
-       o usa una URL directa si está en internet.
+       https://sketchfab.com el modelo se saco gratis 
+       
   ============================================================ -->
   <section id="vista3d">
     <div class="section-header reveal">
@@ -197,7 +193,7 @@
  
   <model-viewer
   
-        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+        src="ducati_panigale_v4.glb"
  
         alt="Vista 3D Ducati Panigale V4"
         auto-rotate
@@ -209,7 +205,7 @@
         style="background: linear-gradient(135deg, #0d0d0d 0%, #1a0005 100%);"
       ></model-viewer>
       <div class="viewer-3d-info">
-        <!-- Cambia aquí el nombre de la moto que mostraste en 3D -->
+      
         <div class="viewer-3d-name">DUCATI <span>PANIGALE V4</span></div>
         <span class="viewer-3d-hint">↻ Arrastra para rotar &nbsp;·&nbsp; Scroll para zoom</span>
       </div>
@@ -259,6 +255,7 @@
       el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)';  ring.style.transform = 'scale(1.5)'; });
       el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)';  ring.style.transform = 'scale(1)';   });
     });
+ 
  
     // ============================================================
     // DATOS DE LAS MOTOS
